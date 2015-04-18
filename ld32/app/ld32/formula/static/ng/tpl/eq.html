@@ -1,0 +1,4 @@
+<span ng-repeat='expr in node.expressions'>
+    <span ng-if='! $first'>{{ node.comparator }}</span>
+    <span formula-view node='expr'></span>
+</span>

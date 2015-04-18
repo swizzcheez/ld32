@@ -25,7 +25,7 @@ def configure(app=None, __name__=__name__, **ctx):
             'site/site.js',
             'site/ng/oo.js',
             'site/ng/stage.js',
-            'warmup/ng/app.js',
+            'formula/ng/formula.js',
         ],
     }
 
@@ -46,7 +46,21 @@ def setup(init_fn, **ctx):
                 port=int(os.environ.get('LD32_PORT', 5000)))
     )
 
-    ld32.setup(mgr, **ctx)
+    @mgr.command
+    def list_routes():
+        import urllib
+        app = flask.current_app
+
+        output = []
+        for rule in app.url_map.iter_rules():
+            methods = ','.join(rule.methods)
+            line = "{:50s} {:20s} {}".format(rule.endpoint, methods, rule)
+            output.append(line)
+
+        for line in sorted(output):
+            print(line)
+
+        ld32.setup(mgr, **ctx)
 
     return mgr
 

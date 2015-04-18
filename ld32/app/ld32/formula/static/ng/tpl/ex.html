@@ -1,0 +1,14 @@
+<span ng-if='node.inner'>
+    (
+    <span ng-repeat='term in node.terms'>
+        <span ng-if='! $first'>+</span>
+        <span formula-view node='term'></span>
+    </span>
+    )
+</span>
+<span ng-if='! node.inner'>
+    <span ng-repeat='term in node.terms'>
+        <span ng-if='! $first'>+</span>
+        <span formula-view node='term'></span>
+    </span>
+</span>

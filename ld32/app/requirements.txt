@@ -1,3 +1,4 @@
 Flask
 Flask-script
 Flask-restful
+sympy

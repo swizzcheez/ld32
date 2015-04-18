@@ -1,0 +1,11 @@
+{% extends "wrapper.html" %}
+
+{% block content %}
+<div ng-app='FormulaView'>
+    <span formula-loader into='formula_res' url='{{ url }}'>
+        <span formula-view node='formula_res.formula' 
+              ng-if='formula_res.formula'>
+        </span>
+    <span>
+</div>
+{% endblock %}
