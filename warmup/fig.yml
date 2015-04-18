@@ -1,0 +1,9 @@
+game:
+    image: "warmup_game"
+    ports:
+        - "0.0.0.0:80:5000"
+    environment:
+        LD32_DEBUG: 1
+        LD32_HOST: "0.0.0.0"
+        LD32_PORT: 5000
+

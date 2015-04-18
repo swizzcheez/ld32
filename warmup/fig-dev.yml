@@ -1,0 +1,11 @@
+game:
+    build: "app"
+    ports:
+        - "0.0.0.0:5000:5000"
+    environment:
+        LD32_DEBUG: 1
+        LD32_HOST: "0.0.0.0"
+    volumes:
+        - "app/:/opt/src/"
+
+

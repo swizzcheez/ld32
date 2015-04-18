@@ -1,0 +1,34 @@
+{% block page %}
+<!DOCTYPE html>
+
+<html lang='en'>
+
+<head>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+{% block page_head %}
+{% for css_file in config.page.static_css %}
+<link rel='stylesheet' href='{{ url_for('static', filename=css_file) }}'>
+{% endfor %}
+{% endblock %}
+</head>
+
+<body>
+{% block page_body %}
+<div class='container'>
+    <div class='row'>
+        {% block content_layout %}
+        <div class='col-md-12'>
+            {% block content %}{% endblock %}
+        </div>
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}
+</body>
+
+{% for js_file in config.page.static_js %}
+<script src='{{ url_for('static', filename=js_file) }}'></script>
+{% endfor %}
+</html>
+
+{% endblock %}

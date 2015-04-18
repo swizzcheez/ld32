@@ -1,0 +1,3 @@
+<svg class='player'>
+    <rect width='50' height='50' stroke='black' stroke-width='3' fill='red'/>
+</svg>
