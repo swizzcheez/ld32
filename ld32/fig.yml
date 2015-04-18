@@ -1,5 +1,5 @@
 game:
-    image: "warmup_game"
+    image: "ld32_game"
     ports:
         - "0.0.0.0:80:5000"
     environment:

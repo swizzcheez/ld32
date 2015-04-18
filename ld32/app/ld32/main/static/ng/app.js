@@ -1,5 +1,5 @@
 
-angular.module('Warmup', ['ngRoute', 'ngResource', 'Stage'])
+angular.module('LD32', ['ngRoute', 'ngResource', 'Stage'])
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -9,11 +9,11 @@ function($routeProvider)
     $routeProvider
         .when('/setup',
         {
-            templateUrl: '/static/warmup/ng/tpl/setup.html',
+            templateUrl: '/static/ld32/ng/tpl/setup.html',
         })
         .when('/playing',
         {
-            templateUrl: '/static/warmup/ng/tpl/playing.html',
+            templateUrl: '/static/ld32/ng/tpl/playing.html',
         })
         .otherwise({
             redirectTo: '/setup'
@@ -22,14 +22,14 @@ function($routeProvider)
 
 //////////////////////////////////////////////////////////////////////////////
 
-.directive('warmupGame', 
+.directive('ld32Game', 
 function(Set, Actor)
 {
     return {
         restrict: 'AE',
         scope:
         {
-            into: '=warmupGame',
+            into: '=ld32Game',
         },
         controller: function($scope)
         {
@@ -46,12 +46,12 @@ function(Set, Actor)
 
 //////////////////////////////////////////////////////////////////////////////
 
-.directive('warmupLoader',
+.directive('ld32Loader',
 function()
 {
     return {
         restrict: 'AE',
-        require: [ '^warmupGame'],
+        require: [ '^ld32Game'],
         scope:
         {
             url: '@',
@@ -61,57 +61,6 @@ function()
             console.log(requires)
         }
     }
-})
-
-//////////////////////////////////////////////////////////////////////////////
-
-.service('WarmupSet',
-function(Set)
-{
-    function WarmupSet()
-    {
-    }
-
-    WarmupSet.prototype = angular.extend(
-        Set.prototype,
-        {
-        })
-
-    return WarmupSet
-})
-
-//////////////////////////////////////////////////////////////////////////////
-
-.service('Player',
-function(Actor)
-{
-    function Player()
-    {
-    }
-
-    Player.prototype = angular.extend(
-        Actor.prototype,
-        {
-        })
-
-    return Player
-})
-
-//////////////////////////////////////////////////////////////////////////////
-
-.service('Monster',
-function(Actor)
-{
-    function Monster()
-    {
-    }
-
-    Monster.prototype = angular.extend(
-        Actor.prototype,
-        {
-        })
-
-    return Monster
 })
 
 //////////////////////////////////////////////////////////////////////////////
