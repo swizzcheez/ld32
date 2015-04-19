@@ -1,6 +1,6 @@
-<span formula-view node='node.scalar'
+<span formula-view node='node.scalar' inner-class='node-f'
       ng-if='node.scalar.n != 1 || node.scalar.d != 1'></span>
 <span ng-repeat='factor in node.factors'>
-    <span formula-view node='factor'></span>
+    <span formula-view inner-class='node-f' node='factor'></span>
 </span>
 

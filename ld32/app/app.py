@@ -15,6 +15,7 @@ def configure(app=None, __name__=__name__, **ctx):
         [
             'ext/bootstrap-3.3.4-dist/css/bootstrap.min.css',
             'site/site.css',
+            'formula/formula.css',
         ],
         'static_js':
         [

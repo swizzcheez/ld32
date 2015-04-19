@@ -1,3 +1,5 @@
-<span ng-view='node.n'></span>
-<span style='border-top: solid 1px' ng-if='node.d != 1' ng-view='node.d'>
-</span>
+<div style='display: inline-block'>
+    <span ng-bind='node.n'></span><br/>
+    <span style='border-top: solid 1px' ng-if='node.d != 1' ng-bind='node.d'>
+    </span>
+</div>

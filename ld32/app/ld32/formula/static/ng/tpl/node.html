@@ -1,0 +1,42 @@
+<span ng-switch='isSelectable({ node: node }) ? 1 : 0'>
+    <span ng-switch-when='1'>
+        <span ng-click='onSelect({ node: node})' 
+              class='node selectable'
+              ng-class='css_classes'
+              ng-include='"node-" + node.type'></span>
+    </span>
+    <span ng-switch-when='0'>
+        <span class='node'
+              ng-class='css_classes'
+              ng-include='"node-" + node.type'></span>
+    </span>
+</span>
+
+<script id='node-equality' type='text/ng-template'>
+    <span ng-repeat='expr in node.children'>
+        <span ng-if='! $first'>=</span>
+        <span formula-view node='expr'></span>
+    </span>
+</script>
+
+<script id='node-add' type='text/ng-template'>
+    <span ng-repeat='term in node.children'>
+        <span ng-if='! $first'>+</span>
+        <span formula-view node='term'></span>
+    </span>
+</script>
+
+<script id='node-mul' type='text/ng-template'>
+    <span ng-repeat='factor in node.children'>
+        <span formula-view node='factor'></span>
+    </span>
+</script>
+
+<script id='node-integer' type='text/ng-template'>
+{{ node.repr }}
+</script>
+
+<script id='node-symbol' type='text/ng-template'>
+{{ node.repr }}
+</script>
+

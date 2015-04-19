@@ -1,5 +1,6 @@
 
-from .formula import *
+import random
+from sympy import *
 
 ##############################################################################
 
@@ -17,6 +18,9 @@ class FormulaGenerator(object):
     def base_formula(self):
         return None
 
+    def eq_do(self, eq, fn):
+        return Eq(*tuple(fn(side) for side in eq.args))
+
     def permute_formula(self, formula):
         pass
 
@@ -30,9 +34,12 @@ class FormulaGenerator(object):
 ##############################################################################
 
 class RandomFormulaGenerator(FormulaGenerator):
+    BASE_SEED = 22313243284327432843278423
+
     def make(self, *_args, **_kw):
         state = random.getstate()
         try:
+            random.seed(self.BASE_SEED)
             random.seed(self.formula_id)
             return super(RandomFormulaGenerator, self).make(*_args, **_kw)
         finally:
@@ -43,7 +50,26 @@ class RandomFormulaGenerator(FormulaGenerator):
 @FormulaGenerator.register('simple')
 class SimpleFormulaGenerator(RandomFormulaGenerator):
     def base_formula(self):
-        return Equation('x', Term(Term('x'), Term(1), scalar=2))
+        want = int(random.random() * 10 + 1)
+        eq = Eq(S('x'), want)
+        if random.random() < 0.5:
+            n = int(random.random() * 4 + 1)
+            eq = self.eq_do(eq, lambda s: s * n)
+        o = int(random.random() * 10 + 1)
+        return self.eq_do(eq, lambda s: s + o)
+
+##############################################################################
+
+@FormulaGenerator.register('dual')
+class DualFormulaGenerator(RandomFormulaGenerator):
+    def base_formula(self):
+        want = int(random.random() * 10 + 1)
+        eq = Eq(S('x'), S('y') + want)
+        if random.random() < 0.5:
+            n = int(random.random() * 4 + 1)
+            eq = self.eq_do(eq, lambda s: s * n)
+        o = int(random.random() * 10 + 1)
+        return self.eq_do(eq, lambda s: s + o)
 
 ##############################################################################
 

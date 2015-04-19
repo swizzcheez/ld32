@@ -1,0 +1,35 @@
+
+.node
+{
+    text-align: center;
+    border-radius: .5em;
+    margin: .5em;
+    padding: .5em;
+}
+
+.node-eq
+{
+    margin-top: .5em !IMPORTANT;
+}
+
+.node-symbol
+{
+    font-style: italic;
+}
+
+/****************************************************************************
+*   Selection support
+****************************************************************************/
+
+.node.selectable
+{
+    border: solid 1px;
+    cursor: pointer;
+}
+
+.select-f-outer .node.selectable:hover
+{
+    background: silver;
+    cursor: pointer;
+}
+
