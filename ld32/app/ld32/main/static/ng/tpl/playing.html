@@ -1,4 +1,112 @@
-Playing
-<a href='#/setup'>Setup...</a>
-<div warmup-game='game'>
+<div stage set='game.set'>
+    <div class='row'>
+        <div class='col-md-3'>
+            <h1>FormulaBlaster</h1>
+            <div class='btn-group' ng-if='game.playing'>
+                <button ng-class='{ "disabled": ! game.orders_form.$valid }'
+                        ng-click='game.commit_orders()'
+                         class='btn btn-danger'>Commit</button>
+                <button ng-class='{ "disabled": game.clock.running }'
+                        class='btn btn-warning'
+                        ng-click='game.clock.play(1000)'>
+                        Slip 1 Second</button>
+                <span class='btn btn-success'>t:
+                    <span ng-bind='game.clock.t / 1000 | number:1'></span>
+                </span>
+            </div>
+            <h2 ng-if='game.lost'>
+                Game Over, Man!
+                <button ng-click='game.reload()' class='btn btn-lg btn-danger'>
+                    Try Again
+                </button>
+            </h2>
+            <h2 ng-if='game.won'>
+                Congratulations!
+                <button ng-click='game.next_level()' 
+                        class='btn btn-lg btn-success'> 
+                    Next Level
+                </button>
+            </h2>
+            <div ng-if='game.playing'>
+                <h4> Instructions </h4>
+                <p>
+                    Aliens are invading!  The world's last hope is a
+                    wrecked piece of alien tech than can shoot them down.
+                    Unfortunately, the only input it has uses algebraic
+                    positioning.  On the plus side, it is able to pause
+                    time.
+                </p>
+                <p>
+                    Slip a few seconds to gauge the pattern the aliens are
+                    using, then input formulas into the table below using
+                    "t" as the variable for both X and Y if needed.  Once
+                    you're ready, click "Commit Orders" and time will
+                    resume.  If you're good the aliens will be history, if
+                    not, too bad for humanity...
+                </p>
+                <p>
+                    Also, since this is alien tech, the orders are not
+                    actually run in any particular order, and it takes some
+                    variable aount of time (within one second) to charge 
+                    before each shot, so using "t" is critical to blasting
+                    these buggers out of the sky!
+                </p>
+            </div>
+        </div>
+        <div class='col-md-9'>
+            <div stage set='game.arena' class='arena'>
+                <span ng-include='"/static/main/ng/tpl/arena.svg"'></span>
+                <span puppet actor='alien' class='alien'
+                    ng-repeat='alien in game.aliens'></span>
+            </div>
+        </div>
+    </div>
+    <div class='row' ng-form='game.orders_form'>
+        <div class='col-md-12'>
+            <table class='table table-border'>
+            <thead>
+                <tr>
+                    <th class='col-md-1'>#</th>
+                    <th class='col-md-1'>Alien</th>
+                    <th class='col-md-3'>Target X Formula</th>
+                    <th class='col-md-3'>Target Y Formula</th>
+                    <th class='col-md-1'>X</th>
+                    <th class='col-md-1'>Y</th>
+                    <th class='col-md-1'>X0</th>
+                    <th class='col-md-1'>Y0</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat='alien in game.aliens'
+                    ng-style='{ "baackground": game.shooter.shoter_idx == $index }'>
+                    <th class='col-md-1' ng-bind='$index + 1'></th>
+                    <td class='col-md-1'
+                        ng-include='"/static/main/ng/tpl/sprite/alien.svg"'></td>
+                    <td class='col-md-3'>
+                        <input ng-model='game.orders[$index].x' 
+                               ng-if='! game.running'
+                               required class='form-control'>
+                        <span ng-if='game.running && $index != game.shooter.order_idx' 
+                              ng-bind='game.orders[$index].x'></span>
+                        <span ng-if='game.running && $index == game.shooter.order_idx' 
+                              ng-bind='game.shooter.target.x'></span>
+                    </td>
+                    <td class='col-md-3'>
+                        <input ng-model='game.orders[$index].y' 
+                               ng-if='! game.running'
+                               required class='form-control'>
+                        <span ng-if='game.running && $index != game.shooter.order_idx' 
+                              ng-bind='game.orders[$index].y'></span>
+                        <span ng-if='game.running && $index == game.shooter.order_idx' 
+                              ng-bind='game.shooter.target.y'></span>
+                    </td>
+                    <td class='col-md-1' ng-bind='alien.x | number:0'></td>
+                    <td class='col-md-1' ng-bind='alien.y | number:0'></td>
+                    <td class='col-md-1' ng-bind='alien.x0 | number:0'></td>
+                    <td class='col-md-1' ng-bind='alien.y0 | number:0'></td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+    </div>
 </div>

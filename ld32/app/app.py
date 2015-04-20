@@ -26,6 +26,7 @@ def configure(app=None, __name__=__name__, **ctx):
             'site/site.js',
             'site/ng/oo.js',
             'site/ng/stage.js',
+            'main/ng/app.js',
             'formula/ng/formula.js',
         ],
     }

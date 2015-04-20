@@ -1,39 +1,61 @@
-<span ng-switch='isSelectable({ node: node }) ? 1 : 0'>
-    <span ng-switch-when='1'>
-        <span ng-click='onSelect({ node: node})' 
-              class='node selectable'
-              ng-class='css_classes'
-              ng-include='"node-" + node.type'></span>
+<span ng-include='"node-view"'></span>
+
+<script id='node-view' type='text/ng-template'>
+    <span ng-switch='isSelectable({ node: node }) ? 1 : 0'>
+        <span ng-switch-when='1'>
+            <span ng-click='onSelect({ node: node})' 
+                  class='node selectable'
+                  ng-class='css_classes'
+                  ng-include='"node-" + node.type'></span>
+        </span>
+        <span ng-switch-when='0'>
+            <span class='node'
+                  ng-class='css_classes'
+                  ng-include='"node-" + node.type'></span>
+        </span>
     </span>
-    <span ng-switch-when='0'>
-        <span class='node'
-              ng-class='css_classes'
-              ng-include='"node-" + node.type'></span>
-    </span>
-</span>
+</script>
 
 <script id='node-equality' type='text/ng-template'>
     <span ng-repeat='expr in node.children'>
         <span ng-if='! $first'>=</span>
-        <span formula-view node='expr'></span>
+        <span formula-view template='node-view' node='expr'></span>
     </span>
 </script>
 
 <script id='node-add' type='text/ng-template'>
     <span ng-repeat='term in node.children'>
         <span ng-if='! $first'>+</span>
-        <span formula-view node='term'></span>
+        <span formula-view template='node-view' node='term'></span>
     </span>
 </script>
 
 <script id='node-mul' type='text/ng-template'>
-    <span ng-repeat='factor in node.children'>
-        <span formula-view node='factor'></span>
+    <span ng-repeat='factor in node.children' ng-if='!node.parens'>
+        <span formula-view template='node-view' node='factor'></span>
+    </span>
+    <span ng-repeat='factor in node.children' ng-if='node.parens'>
+        (<span formula-view template='node-view' node='factor'></span>)
     </span>
 </script>
 
-<script id='node-integer' type='text/ng-template'>
+<script id='node-pow' type='text/ng-template'>
+    <span formula-view template='node-view' node='node.children[0]'></span>
+    <sup formula-view template='node-view' node='node.children[1]'></sup>
+</script>
+
+<script id='node-div' type='text/ng-template'>
+    <span formula-view template='node-view' node='node.children[0]'></span>
+    <hr/>
+    <span formula-view template='node-view' node='node.children[1]'></span>
+</script>
+
+<script id='node-number' type='text/ng-template'>
 {{ node.repr }}
+</script>
+
+<script id='node-rational' type='text/ng-template'>
+{{ node.n }} / {{ node. d}}
 </script>
 
 <script id='node-symbol' type='text/ng-template'>

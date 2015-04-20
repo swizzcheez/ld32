@@ -1,8 +1,9 @@
 {% extends "wrapper.html" %}
 
 {% block content %}
-<h1h>Game...</h1>
-<div ng-app='Warmup'>
-    <div ng-view></ng-view>
+<div ng-app='LD32Game' 
+     ng-init="level_url='{{ url_for('levelresource', _external=True) }}'">
+    <div ng-view></div>
 </div>
 {% endblock %}
+

@@ -1,33 +1,8 @@
 {% extends "wrapper.html" %}
 
 {% block content %}
-<ol ng-app='FormulaView'
-    style='padding-top: 1em'
-    ng-init='view_url="{{ url }}"; formula_hist=[]'>
-
-    <li ng-repeat='formula in formula_hist'>
-        <span formula-view node='formula'></span>
-    </li>
-
-    <li ng-controller='FormulaSelectionCtrl as selector'
-         ng-class='selector.selectable'>
-        <div formula-loader into='formula_res' url='view_url'>
-            <span formula-view node='formula_res.formula' 
-                  is-selectable='selector.nodeIsSelectable(node)'
-                  on-select='formula_hist.push(formula_res.formula);
-                             selector.selectNode(node)'
-                  ng-if='formula_res.formula'>
-            </span>
-        </div>
-        <ul ng-if='selector.op == null'>
-            <li ng-repeat='(opname, op) in formula_res.operations'>
-                <a ng-click='selector.start(opname, op)' ng-bind='opname'></a>
-            </li>
-        </ul>
-        <div ng-if='selector.op != null'>
-            <span ng-bind='selector.selectable'></span>
-            <a ng-click='selector.cancel()'>Cancel</a>
-        </div>
-    </li>
+<div ng-app='FormulaView' style='padding-top: 1em'>
+    <div formula-panel url='{{ url }}'
+         template='/static/formula/ng/tpl/panel.html'></div>
 </ol>
 {% endblock %}

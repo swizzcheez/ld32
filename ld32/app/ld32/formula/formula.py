@@ -32,12 +32,29 @@ class SymbolEntityMap(dict):
 
         return entity
 
+    def add_number(self, entity, sym, ctx, child_ctx):
+        entity['type'] = 'number'
+
     def add_rational(self, entity, sym, ctx, child_ctx):
-        entity['n'] = sym.p
-        entity['d'] = sym.q
+        if sym.q != 1:
+            entity['type'] = 'rational'
+            entity['n'] = sym.p
+            entity['d'] = sym.q
+
+    def add_pow(self, entity, sym, ctx, child_ctx):
+        if sym.args[1] < 0:
+            entity['type'] = 'div'
 
     def add_equality(self, entity, sym, ctx, child_ctx):
         self.setup_equation(sym)
+
+    def add_mul(self, entity, sym, ctx, child_ctx):
+        parens = False
+        for factor in sym.args:
+            if not factor.is_Atom:
+                parens = True
+                break
+        entity['parens'] = parens
 
     def setup_equation(self, sym, **ctx):
         self(sym)['extra'].append('eq')
@@ -69,8 +86,9 @@ class SymbolEntityMap(dict):
             self.setup_factor(sym, outer=outer, **ctx)
 
     def setup_factor(self, sym, outer=False, **ctx):
-        self(sym)['extra'].append('f')
-        if outer:
-            self(sym)['extra'].append('f-outer')
-        else:
-            self(sym)['extra'].append('f-inner')
+        if sym.is_Number and sym != 0:
+            self(sym)['extra'].append('f')
+            if outer:
+                self(sym)['extra'].append('f-outer')
+            else:
+                self(sym)['extra'].append('f-inner')

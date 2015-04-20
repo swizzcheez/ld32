@@ -1,0 +1,17 @@
+
+.arena
+{
+    width: 800px;
+    height: 640px;
+    border: solid 1px black;
+    cursor: crosshair;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.alien
+{
+    margin-left: -12px;
+    margin-top: -12px;
+}
+

@@ -3,6 +3,28 @@ angular.module('FormulaView', ['ngResource'])
 
 //////////////////////////////////////////////////////////////////////////////
 
+.directive('formulaPanel',
+function()
+{
+    return {
+        restrict: 'AE',
+        templateUrl: function(element, attrs)
+        {
+            return attrs.template
+        },
+        scope:
+        {
+            view_url: '@url',
+        },
+        link: function($scope)
+        {
+            $scope.formula_hist=[]
+        }
+    }
+})
+
+//////////////////////////////////////////////////////////////////////////////
+
 .controller('FormulaSelectionCtrl',
 function($scope)
 {
@@ -91,7 +113,10 @@ function()
     return {
         restrict: 'AE',
         require: [ 'formulaView', '?^^formulaView' ],
-        templateUrl: '/static/formula/ng/tpl/node.html',
+        templateUrl: function(element, attrs)
+        {
+            return attrs.template
+        },
         scope:
         {
             node: '=',

@@ -13,7 +13,7 @@ class FormulaOperator(object):
 
     def apply_to(self, formula):
         if isinstance(formula, Equality):
-            return self.modify_eq(formula, *self.args, **self.kwargs)
+            return simplify(self.modify_eq(formula, *self.args, **self.kwargs))
         else:
             raise TypeError('Cannot apply %r to %r' % (self, formula))
 
@@ -47,7 +47,7 @@ class FormulaOperator(object):
 
 ##############################################################################
 
-@FormulaOperator.register('sub_term')
+@FormulaOperator.register('elim_outer_term')
 class SubTermOperator(FormulaOperator):
     def modify_eq(self, eq, term):
         return Eq(*tuple((expr - term) for expr in eq.args))
@@ -59,7 +59,7 @@ class SubTermOperator(FormulaOperator):
 
 ##############################################################################
 
-@FormulaOperator.register('div_factor')
+@FormulaOperator.register('elim_outer_factor')
 class SubTermOperator(FormulaOperator):
     def modify_eq(self, eq, factor):
         return Eq(*tuple((expr / factor) for expr in eq.args))
@@ -68,6 +68,24 @@ class SubTermOperator(FormulaOperator):
     def setup_arguments(cls, arguments):
         super().setup_arguments(arguments)
         arguments.append(dict(selects=['f-outer']))
+
+    @classmethod
+    def can_apply_to(cls, formula):
+        if super().can_apply_to(formula):
+            simple = True
+            for side in formula.args:
+                for part in side.args:
+                    if part.is_Add:
+                        for sub in part.args:
+                            if not sub.is_Atom:
+                                simple = False
+                                break
+                    elif not part.is_Atom:
+                        simple = False
+                if not simple:
+                    break
+            return simple
+        return False
 
 ##############################################################################
 

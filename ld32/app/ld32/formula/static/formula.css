@@ -2,9 +2,28 @@
 .node
 {
     text-align: center;
+    border-collapse: collapse;
     border-radius: .5em;
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
+.node-t-outer
+{
     margin: .5em;
     padding: .5em;
+}
+
+.node-f-outer
+{
+    margin: .4em;
+    padding: .4em;
+}
+
+.node-t-inner
+{
+    margin: .25em;
+    padding: .225em;
 }
 
 .node-eq
@@ -15,6 +34,11 @@
 .node-symbol
 {
     font-style: italic;
+}
+
+.node-div
+{
+    display: inline-block;
 }
 
 /****************************************************************************

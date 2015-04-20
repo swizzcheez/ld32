@@ -24,6 +24,9 @@ class FormulaGenerator(object):
     def permute_formula(self, formula):
         pass
 
+    def irand(self, n, m=1):
+        return int(random.random() * (n - m + 1) + m)
+
     @staticmethod
     def register(name):
         def registrar(cls):
@@ -60,7 +63,22 @@ class SimpleFormulaGenerator(RandomFormulaGenerator):
 
 ##############################################################################
 
-@FormulaGenerator.register('dual')
+@FormulaGenerator.register('quad')
+class DualFormulaGenerator(RandomFormulaGenerator):
+    def base_formula(self):
+        want = int(random.random() * 10 + 1)
+        p = self.irand(5)
+        q = self.irand(5)
+        r = self.irand(5)
+        s = self.irand(5)
+        x = symbols('x')
+        eq = Eq(0, expand(p*x + q) * (r*x + s))
+        o = self.irand(10)
+        return Eq(eq.lhs + o, expand(eq.rhs + o))
+
+##############################################################################
+
+@FormulaGenerator.register('twovar')
 class DualFormulaGenerator(RandomFormulaGenerator):
     def base_formula(self):
         want = int(random.random() * 10 + 1)
